@@ -58,6 +58,16 @@ body{
     color: #fff;
     text-decoration: none;
 }
+p.admin-login, .admin-signup {
+    cursor: pointer;
+    color: #fff;
+}
+.admin-login-form {
+    display: none;
+}
+.admin-signup-form {
+    display: none;
+}
 
 /******* QUESTION PANEL *******/
 
