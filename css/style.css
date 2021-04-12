@@ -77,7 +77,7 @@ p.admin-login, .admin-signup {
     width: 100%;
     height: auto;
     padding: 10px 54px;
-    display: none;
+    display: block;
 }
 .admin-panel-wrapper {
     float: left;
