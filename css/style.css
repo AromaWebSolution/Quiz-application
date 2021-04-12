@@ -72,11 +72,11 @@ p.admin-login, .admin-signup {
 /******* QUESTION PANEL *******/
 
 .admin-panel-container{
-	background-image: url('../images/question.jpeg');
-	background-size: cover;
-	width: 100%;
-	height: auto;
-	padding: 10px 54px;
+    background-image: url('../images/question.jpeg');
+    background-size: cover;
+    width: 100%;
+    height: auto;
+    padding: 10px 54px;
     display: none;
 }
 .admin-panel-wrapper {
@@ -122,6 +122,4 @@ button:hover {
     content: '';
     display: table;
     clear: left;
-}
-.admin {
 }
