@@ -102,12 +102,68 @@ color: #fff;
     border-radius: 39px;
     color: #fff;
 }
+#question-update-btn, #question-delete-btn, #question-insert-btn, #clear-result-btn, #question-clear-btn, #question-next-btn, .gotoHome, .viewScore{
+	padding: 10px 30px;
+    background-color: transparent;
+    border: 2px solid #ff9800;
+    border-radius: 39px;
+    color: #fff;
+}
+#question-update-btn:hover, #question-delete-btn:hover, #question-insert-btn:hover, #clear-result-btn:hover, #question-clear-btn:hover,.edit-btn:hover, #question-next-btn:hover, #login-btn:hover, a.gotoHome:hover
+ {
+    background-color: #ff9800;
+    cursor: pointer; 
+    color: #000;
+}
+#question-delete-btn, #question-update-btn {
+    display: none;
+}
+textarea#new-question-text {
+    margin: 20px 0px 0px 26px;
+    background-color: #afa7a7;    
+    width: 260px;
+    height: 65px;
+    border: 2px solid #d5d7d8;
+    border-radius: 3px;
+    transition: all 0.4s linear;
+}
+textarea#new-question-text:focus {
+    border: 2px solid skyblue;
+    transition: all 0.4s linear;
+}
+.admin-options-wrapper input:focus {
+    border: 2px solid skyblue;
+    transition: all 0.4s linear;
+}
+.admin-options-wrapper input {
+    padding: 8px 12px;
+    background-color: #afa7a7;
+    border: 2px solid #d5d7d8;
+    border-radius: 3px;
+    margin-top: 10px;
+    transition: all 0.4s linear;
+}
+button#question-insert-btn {
+    margin: 22px 0px 0px 18px;
+}
+button#question-clear-btn {
+    float: right;
+    margin-top: 30px;
+}
+.result-container {
+    float: right;
+}
+.clear {
+    width: 370px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 12px;
+    height: 95vh;
+}
 .clear>h2 {
     float: left;
     color: #fff;
     margin-top: 2px;
-}
-button#clear-result-btn {
+}button#clear-result-btn {
     margin-left: 121px;
 }
 button{
