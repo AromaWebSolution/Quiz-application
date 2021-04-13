@@ -10,6 +10,43 @@ var quizController = (function () {
   	this.options = options;
   	this.correctAnswer = correctAnswer;
   }
+	
+  var questionLocalStorage = {
+    setQuestionCollection: function(newCollection) {
+      localStorage.setItem('QuestionId', JSON.stringify(newCollection));
+    },
+    getQuestionCollection: function() { 
+     return JSON.parse(localStorage.getItem('QuestionId'));
+    }
+  };
+  if (questionLocalStorage.getQuestionCollection() === null) {
+        questionLocalStorage.setQuestionCollection([]);
+  }
+ 
+return {
+  addQuestionOnLocalStorage: function(newQuestText, opts) {
+     var optionsArr, corrAns, questionId, newQuestion, storedQuest, isChecked;
+      optionsArr = [];
+      isChecked = false;
+ 
+      for (var i = 0; i < opts.length; i++) {
+        if(opts[i].value !== "") {
+          optionsArr.push(opts[i].value);
+        }
+        if (opts[i].previousElementSibling.checked && opts[i].value !== '') {
+          corrAns = opts[i].value;
+          isChecked = true;
+        }
+      }
+
+      if (questionLocalStorage.getQuestionCollection().length > 0) {
+       questionId = questionLocalStorage.getQuestionCollection()[questionLocalStorage.getQuestionCollection().length -1].id + 1;
+      }
+      else{
+        questionId = 0;
+      }
+  }
+};
 
 })();
 
