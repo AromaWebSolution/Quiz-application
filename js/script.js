@@ -45,6 +45,32 @@ return {
       else{
         questionId = 0;
       }
+      if (newQuestText.value !== '') {
+        if (optionsArr.length > 1) {
+          if (isChecked) {
+      newQuestion = new Question(questionId, newQuestText.value, optionsArr, corrAns);
+      
+      storedQuest = questionLocalStorage.getQuestionCollection();
+      storedQuest.push(newQuestion);
+      questionLocalStorage.setQuestionCollection(storedQuest);
+
+      newQuestText.value = '';
+
+      for (var x = 0; x < opts.length; x++) {
+        opts[x].value = '';
+        opts[x].previousElementSibling.checked = false; 
+      }
+
+      }else{
+        alert('you missed to Check the correct Answer options');
+      }
+      }else{
+        alert('Please Insert atleast two Item');
+      }
+      }
+      else{
+        alert('Please Enter the Question');
+      }
   }
 };
 
