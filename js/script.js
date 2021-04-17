@@ -106,5 +106,13 @@ var UIController = (function() {
 /*****************************/
 
 var moduleController = (function(quizctrl, uictrl) {
+	
+    var selectedDomItems = uictrl.getDomItems;
+
+    selectedDomItems.questInsertBtn.addEventListener('click', function() {
+        var adminOpts = document.querySelectorAll('.admin-option');
+        quizctrl.addQuestionOnLocalStorage(selectedDomItems.newQuestText, adminOpts);
+        uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
+    });
 
 })(quizController, UIController);
