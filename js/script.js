@@ -83,10 +83,10 @@ return {
 var UIController = (function() {
 	//****** Admin Panel Section ******
 
-	var domItems = {
-		questInsertBtn: document.getElementById('question-insert-btn'),
-		newQuestText: document.getElementById('new-question-text'),
-		adminOpts: document.querySelectorAll('.admin-option'),
+var domItems = {
+    questInsertBtn: document.getElementById('question-insert-btn'),
+    newQuestText: document.getElementById('new-question-text'),
+    adminOpts: document.querySelectorAll('.admin-option'),
     adminOptsWrapper: document.querySelectorAll('.admin-options-wrapper'),
     adminOptionsContainer: document.querySelector('.admin-options-container'),
     insertedQuestionWrapper: document.querySelector('.inserted-questions-wrapper'),
@@ -97,7 +97,20 @@ var UIController = (function() {
     deleteButton: document.getElementById('question-delete-btn'),
 	};
 	return {
-		getDomItems: domItems
+	getDomItems: domItems,
+	addInputDynamically: function() {
+      	let addInput = function() {
+        var inputHTML, z;
+        
+        z = document.querySelectorAll('.admin-option').length;
+        inputHTML = '<div class="admin-options-wrapper"><input type="radio" name="answer" class="admin-options-' + z + '" value="' + z + '"><input type="text" class="admin-option admin-options-' + z + '" value=""></div>';
+        domItems.adminOptionsContainer.insertAdjacentHTML('beforeend', inputHTML);
+        
+      domItems.adminOptionsContainer.lastElementChild.previousElementSibling.lastElementChild.removeEventListener('focus', addInput); 
+      domItems.adminOptionsContainer.lastElementChild.lastElementChild.addEventListener('focus', addInput);
+      }
+      domItems.adminOptionsContainer.lastElementChild.lastElementChild.addEventListener('focus', addInput);      
+    }
     
 };
 })();
@@ -108,6 +121,7 @@ var UIController = (function() {
 var moduleController = (function(quizctrl, uictrl) {
 	
     var selectedDomItems = uictrl.getDomItems;
+    uictrl.addInputDynamically();
 
     selectedDomItems.questInsertBtn.addEventListener('click', function() {
         var adminOpts = document.querySelectorAll('.admin-option');
