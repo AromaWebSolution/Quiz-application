@@ -17,6 +17,12 @@ var quizController = (function () {
     },
     getQuestionCollection: function() { 
      return JSON.parse(localStorage.getItem('QuestionId'));
+    },
+    removeQuestionCollection: function() {
+      localStorage.removeItem('QuestionId');
+    },
+    clearLocaleStorage: function() {
+      localStorage.clear('QuestionId');
     }
   };
   if (questionLocalStorage.getQuestionCollection() === null) {
@@ -110,6 +116,17 @@ var domItems = {
       domItems.adminOptionsContainer.lastElementChild.lastElementChild.addEventListener('focus', addInput);
       }
       domItems.adminOptionsContainer.lastElementChild.lastElementChild.addEventListener('focus', addInput);      
+    },
+    createQuestionList: function(getQuestions) {
+      var questHTML, questionNumber;
+
+      domItems.insertedQuestionWrapper.innerHTML = '';
+      questionNumber = 0;
+      
+      for (var i = 0; i < getQuestions.getQuestionCollection().length; i++) {
+        questHTML = '<p id="' + getQuestions.getQuestionCollection()[i].id + '"><span class="inserted-ques-text">' + ++questionNumber + '- ' + getQuestions.getQuestionCollection()[i].questionText + '</span><button class="edit-btn edit-btn-' + getQuestions.getQuestionCollection()[i].id + '">Edit</button></p>';
+        domItems.insertedQuestionWrapper.insertAdjacentHTML('beforeend', questHTML); 
+      }  
     }
     
 };
@@ -121,6 +138,7 @@ var domItems = {
 var moduleController = (function(quizctrl, uictrl) {
 	
     var selectedDomItems = uictrl.getDomItems;
+    uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
     uictrl.addInputDynamically();
 
     selectedDomItems.questInsertBtn.addEventListener('click', function() {
