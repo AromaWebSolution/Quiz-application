@@ -179,3 +179,31 @@ button:hover {
     display: table;
     clear: left;
 }
+/*Question List Container*/
+.inserted-questions-wrapper {
+    width: 800px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2px 30px;
+    margin-top: 20px;
+}
+.inserted-questions-wrapper button {
+    float: right;
+    padding: 4px 20px;
+    background-color: transparent;
+    border: 2px solid #ff9800;
+    border-radius: 39px;
+    color: #fff;
+    margin-top: -4px;
+}
+.inserted-ques-text {
+    color: #fff;
+}
+.inserted-questions-wrapper p {
+    border: 2px solid #ff9800;
+    padding: 10px 10px;
+    border-radius: 15px;
+    background-color: #6b6969;
+}
+.inserted-questions-wrapper p:hover {
+    background-color: #313030;
+}
