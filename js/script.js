@@ -30,6 +30,7 @@ var quizController = (function () {
   }
  
 return {
+  getQuestionLocalStorage: questionLocalStorage,
   addQuestionOnLocalStorage: function(newQuestText, opts) {
      var optionsArr, corrAns, questionId, newQuestion, storedQuest, isChecked;
       optionsArr = [];
@@ -77,7 +78,17 @@ return {
       else{
         alert('Please Enter the Question');
       }
-  }
+  },
+    deleteQuestionOnLocalStorage: function(questionId) {
+      var questionCollection = questionLocalStorage.getQuestionCollection();
+      for(var i = 0; i < questionCollection.length; i++) {
+        if(questionId === questionCollection[i].id) {
+          var questionIndex = questionCollection.indexOf(questionCollection[i]);
+          questionCollection.splice(questionIndex, 1);
+        }
+      }
+      questionLocalStorage.setQuestionCollection(questionCollection);
+    }
 };
 
 })();
