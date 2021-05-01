@@ -138,7 +138,86 @@ var domItems = {
         questHTML = '<p id="' + getQuestions.getQuestionCollection()[i].id + '"><span class="inserted-ques-text">' + ++questionNumber + '- ' + getQuestions.getQuestionCollection()[i].questionText + '</span><button class="edit-btn edit-btn-' + getQuestions.getQuestionCollection()[i].id + '">Edit</button></p>';
         domItems.insertedQuestionWrapper.insertAdjacentHTML('beforeend', questHTML); 
       }  
+    },
+    editQuestionList: function(event, getEditQuestion) {
+      var itemID, optionsList, z;
+      itemID = parseInt(event.target.parentNode.id);
+      let adminOptsWrapper = document.querySelectorAll('.admin-options-wrapper');
+      let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
+
+      let addInput = function() {
+          var inputHTML, z;
+          z = document.querySelectorAll('.admin-option').length;
+          inputHTML = '<div class="admin-options-wrapper"><input type="radio" name="answer" class="admin-options-' + z + '" value="' + z + '"><input type="text" class="admin-option admin-options-' + z + '" value=""></div>';
+          domItems.adminOptionsContainer.insertAdjacentHTML('beforeend', inputHTML);
+      }
+
+      for(var i = 0; i < getEditQuestion.getQuestionCollection().length; i++) {
+        if(itemID === getEditQuestion.getQuestionCollection()[i].id) {
+            domItems.newQuestText.value = getEditQuestion.getQuestionCollection()[i].questionText;
+            domItems.formsWrapper.id = getEditQuestion.getQuestionCollection()[i].id;
+            domItems.questInsertBtn.style.display = 'none';
+          
+            optionsList = getEditQuestion.getQuestionCollection()[i].options;
+              let answer = getEditQuestion.getQuestionCollection()[i].correctAnswer;
+            
+
+            if(optionsList.length === 3) {
+                adminOptsWrapper.forEach(function(item, index) {
+                    item.parentNode.removeChild(item);
+                });
+                addInput();
+                addInput();
+                addInput();
+              
+              let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
+              optionsList.forEach((option, index) => {
+              adminOpts[index].value = option;
+                  if(adminOpts[index].value === answer) {
+                  adminOpts[index].previousElementSibling.checked = true;
+                }
+              });
+            }
+            else if(optionsList.length === 4) {
+
+                adminOptsWrapper.forEach(function(item, index) {
+                    item.parentNode.removeChild(item);
+                });
+
+                addInput();
+                addInput();
+                addInput();
+                addInput();
+              let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
+              optionsList.forEach((option, index) => {
+              adminOpts[index].value = option;
+                  if(adminOpts[index].value === answer) {
+                  adminOpts[index].previousElementSibling.checked = true;
+                }
+              });
+
+            }
+            else if(optionsList.length === 2) {
+
+                adminOptsWrapper.forEach(function(item, index) {
+                    item.parentNode.removeChild(item);
+                });
+                addInput();
+                addInput();
+              
+                let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
+                optionsList.forEach((option, index) => {
+                adminOpts[index].value = option;
+                  if(adminOpts[index].value === answer) {
+                  adminOpts[index].previousElementSibling.checked = true;
+                }
+                });    
+            }
+        }
     }
+    domItems.deleteButton.style.display = 'inline-block';
+    domItems.updateButton.style.display = 'inline-block';
+},
     
 };
 })();
