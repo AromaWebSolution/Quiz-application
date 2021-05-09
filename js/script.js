@@ -218,6 +218,68 @@ var domItems = {
     domItems.deleteButton.style.display = 'inline-block';
     domItems.updateButton.style.display = 'inline-block';
 },
+    updateQuestion: function() {
+      let mylStorage = quizController.getQuestionLocalStorage.getQuestionCollection();
+      let adminOpts = document.querySelectorAll('.admin-option');
+      let newQuestText  = document.getElementById('new-question-text');
+
+    function Question(id, questionText, options, correctAnswer) {
+    this.id = id;
+    this.questionText = questionText;
+    this.options = options;
+    this.correctAnswer = correctAnswer;
+  }
+
+      for(var i = 0; i < mylStorage.length; i++) {
+        if (mylStorage[i].id === parseInt(domItems.formsWrapper.id)) {
+          var questionId = mylStorage[i].id;
+          var questionIndex = mylStorage.indexOf(mylStorage[i]);
+    
+           function updateFunction(newQuestText, opts) {
+            var optionsArr, corrAns, newQuestion, storedQuest, isChecked;
+            optionsArr = [];
+ 
+      for (var i = 0; i < opts.length; i++) {
+        if(opts[i].value !== "") {
+          optionsArr.push(opts[i].value);
+        }
+        if (opts[i].previousElementSibling.checked && opts[i].value !== '') {
+          corrAns = opts[i].value;
+          isChecked = true;
+        }
+      }
+
+      if (newQuestText.value !== '') {
+        if (optionsArr.length > 1) {
+          if (isChecked) {
+            newQuestion = new Question(questionId, newQuestText.value, optionsArr, corrAns);
+              mylStorage.splice(questionIndex, 1, newQuestion);
+            quizController.getQuestionLocalStorage.setQuestionCollection(mylStorage);
+           newQuestText.value = '';
+
+      for (var x = 0; x < opts.length; x++) {
+        opts[x].value = '';
+        opts[x].previousElementSibling.checked = false; 
+      }
+      domItems.questInsertBtn.style.display = 'block';
+      domItems.deleteButton.style.display = 'none';
+      domItems.updateButton.style.display = 'none';
+
+      }else{
+        alert('you missed to Check the correct Answer options');
+      }
+      }else{
+        alert('Please Insert atleast two Item');
+      }
+      }
+      else{
+        alert('Please Enter the Question');
+      }
+      }
+      updateFunction(newQuestText, adminOpts);
+        }
+      }
+    }
     
 };
 })();
