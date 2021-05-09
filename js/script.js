@@ -279,7 +279,19 @@ var domItems = {
       updateFunction(newQuestText, adminOpts);
         }
       }
-    }
+    },
+    deleteQuestionUI: function() {
+      var opts = document.querySelectorAll('.admin-option');
+      var adminOpts = document.querySelectorAll('.admin-options-wrapper');
+      domItems.newQuestText.value = '';
+      for (var x = 0; x < opts.length; x++) {
+        opts[x].previousElementSibling.checked = false;
+        opts[x].value = ''; 
+      }
+      domItems.deleteButton.style.display = 'none';
+      domItems.updateButton.style.display = 'none';
+      domItems.questInsertBtn.style.display = 'block';
+    },
     
 };
 })();
