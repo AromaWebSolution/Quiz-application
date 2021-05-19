@@ -310,5 +310,32 @@ var moduleController = (function(quizctrl, uictrl) {
         quizctrl.addQuestionOnLocalStorage(selectedDomItems.newQuestText, adminOpts);
         uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
     });
+selectedDomItems.questionClearBtn.addEventListener('click', function() {
+    let clearQuestion = confirm('Are you Sure you want to remove the question list?');
+    if (clearQuestion == true) {
+    quizctrl.getQuestionLocalStorage.clearLocaleStorage(); 
+    quizctrl.getQuestionLocalStorage.getQuestionCollection();
+    //selectedDomItems.insertedQuestionWrapper.innerHTML = '';
+    uictrl.createQuestionList(quizctrl.getQuestionLocalStorage); 
+    }
+});
+selectedDomItems.insertedQuestionWrapper.addEventListener('click', function(event) {
+    uictrl.editQuestionList(event, quizctrl.getQuestionLocalStorage);
+});
 
+selectedDomItems.updateButton.addEventListener('click', function() {
+    uictrl.updateQuestion();
+});
+
+selectedDomItems.deleteButton.addEventListener('click', function() {
+      let deleteQuestion = confirm('Are you Sure you want to delete the question?');
+    if (deleteQuestion == true) {
+      var formsWrapperId = selectedDomItems.formsWrapper.id;
+      if(formsWrapperId) {
+        quizctrl.deleteQuestionOnLocalStorage(parseInt(formsWrapperId));
+        uictrl.deleteQuestionUI();
+        uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
+      }
+    }
+});	
 })(quizController, UIController);
