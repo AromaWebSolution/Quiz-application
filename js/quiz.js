@@ -10,6 +10,25 @@ var quizController = (function () {
   	this.options = options;
   	this.correctAnswer = correctAnswer;
   }
+    
+var questionLocalStorage = {
+    setQuestionCollection: function(newCollection) {
+      localStorage.setItem('QuestionId', JSON.stringify(newCollection));
+    },
+    getQuestionCollection: function() { 
+     return JSON.parse(localStorage.getItem('QuestionId'));
+    },
+    removeQuestionCollection: function() {
+      localStorage.removeItem('QuestionId');
+    },
+    clearLocaleStorage: function() {
+      localStorage.clear('QuestionId');
+    }
+  };
+    
+if (questionLocalStorage.getQuestionCollection() === null) {
+        questionLocalStorage.setQuestionCollection([]);
+  }
 })();
 
 /*****************************/
