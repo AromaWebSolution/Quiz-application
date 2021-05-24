@@ -2,33 +2,26 @@
 /*****  QUIZ CONTROLLER ******/
 /*****************************/
 
-var quizController = (function () {
+var quizControllerQuiz = (function () {
     // ******* QUESTION CONSTRUCTOR 
-  function Question(id, questionText, options, correctAnswer) {
-  	this.id = id;
-  	this.questionText = questionText;
-  	this.options = options;
-  	this.correctAnswer = correctAnswer;
+  function User(firstName, lastName, correctAnswer, wrongAnswer) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.correctAnswer = correctAnswer;
+    this.wrongAnswer = wrongAnswer;
   }
-    
-var questionLocalStorage = {
-    setQuestionCollection: function(newCollection) {
-      localStorage.setItem('QuestionId', JSON.stringify(newCollection));
-    },
-    getQuestionCollection: function() { 
+
+  var questionLocalStorage = {
+    getQuestionCollectionQuiz: function() { 
      return JSON.parse(localStorage.getItem('QuestionId'));
     },
-    removeQuestionCollection: function() {
-      localStorage.removeItem('QuestionId');
+    setUserOnLocalStorage: function(user) {
+      localStorage.setItem('userName', JSON.stringify(user));
     },
-    clearLocaleStorage: function() {
-      localStorage.clear('QuestionId');
+    getUserOnLocalStorage: function() {
+      return JSON.parse(localStorage.getItem('userName'));
     }
   };
-    
-if (questionLocalStorage.getQuestionCollection() === null) {
-        questionLocalStorage.setQuestionCollection([]);
-  }
 })();
 
 /*****************************/
@@ -43,4 +36,4 @@ var UIController = (function() {
 /*****************************/
 
 var moduleController = (function(quizctrl, uictrl) {
-})(quizController, UIController);
+})(quizControllerQuiz, UIController);
