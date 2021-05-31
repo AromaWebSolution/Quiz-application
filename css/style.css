@@ -39,6 +39,11 @@ body{
     font-size: 16px;
     outline: none;
 }
+.input-error-email, .input-error-password, .input-invalid, .input-error-firstname, .input-error-lastname, .insert-question-errors {
+    display: none;
+    color: #ef1919;
+    font-size: 14px;
+}
 #login-btn, .admin-login-btn, .admmin-signup-btn {
     padding: 7px 34px;
     background-color: transparent;
@@ -206,4 +211,92 @@ button:hover {
 }
 .inserted-questions-wrapper p:hover {
     background-color: #313030;
+}
+
+/***********  Quiz Question Text **********/
+.quiz-panel-wrapper {
+    background-image: url('../images/quiz-question-background.jpg');
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+.quiz-panel-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000c9;
+    max-width: 600px;
+    width: 100%;
+    padding: 50px 30px;
+    border-radius: 6px;
+}
+
+.quiz-panel-container .header h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #ff9800;
+}
+.quiz-wrapper {
+    margin-top: 40px;
+    color: #efefef;
+}
+.quiz-question {
+    margin-bottom: 20px;
+}
+.quiz-question span:last-child {
+    margin-left: 10px;
+}
+.quiz-options-container {
+    margin-bottom: 35px;
+}
+.quiz-options-wrapper {
+    margin: 20px 0px;
+}
+/********  Quiz Question Text End *********/
+
+/******* Summary styles ***********/
+.summary button {
+    display: none;
+}
+.summary a {
+    display: none;
+    text-decoration: none;
+}
+#question-next-btn {
+    display: block;
+}
+.summary {
+    text-align: center;
+}
+.scoreDetails p:nth-child(1) {
+    font-size: 26px;
+    color: #ff9800;
+}
+.indicator {
+    display: none;
+    width: 100%;
+    border-radius: 20px;
+    border: 2px solid #333;
+    height: 26px;
+    margin-bottom: 18px;
+    background-color: #1d1511;
+}
+.fill-indicator {
+    width: 0%;
+    border-radius: 20px;
+    border: 2px solid #ff9800;
+    height: 0%;
+    margin-bottom: 18px;
+    background-color: #ff9800;
+}
+p.admin-login, .admin-signup {
+    cursor: pointer;
+    color: #fff;
+}
+.admin-login-form {
+    display: none;
+}
+.admin-signup-form {
+    display: none;
 }
