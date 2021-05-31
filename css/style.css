@@ -82,7 +82,7 @@ p.admin-login, .admin-signup {
     width: 100%;
     height: auto;
     padding: 10px 54px;
-    display: block;
+    display: none;
 }
 .admin-panel-wrapper {
     float: left;
