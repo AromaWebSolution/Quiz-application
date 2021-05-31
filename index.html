@@ -7,25 +7,31 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<!-- <link rel="icon" href="images/favicon.png" type="image/gif" sizes="16x16"> -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 	<!----- Login Section ----->
 	<section id="login-form" class="login-section">
 		<div class="quiz-login-form">
-		<input type="text" name="First Name" placeholder="First Name" id="first-name"><br>
-		<input type="text" name="Last Name" placeholder="Last Name" id="last-name"><br>
+		<input type="text" name="First Name" placeholder="First Name" id="first-name">
+		<span class="input-error-firstname">Pleae enter your first name </span> 
+		<input type="text" name="Last Name" placeholder="Last Name" id="last-name">
+		<span class="input-error-lastname">Pleae enter your last name </span> 
 		<p class="admin-login">Admin Login</p>
 		<a id="login-btn" href="void:(0)">Start Quiz</a>
 		</div>
 		<div class="admin-login-form">
-			<input type="email" name="Your email" placeholder="Your email" id="login-email"><br>
-			<input type="password" name="password" placeholder="Password" id="login-password"><br>
+			<input type="email" name="Your email" placeholder="Your email" id="login-email">
+			<span class="input-error-email">Pleae enter your email </span>
+			<input type="password" name="password" placeholder="Password" id="login-password">
+			<span class="input-error-password">Pleae enter your password </span>
+			<span class="input-invalid">Username/Password is incorrect</span>
 			<button id="admin-login-btn" class="admin-login-btn">Login</button>
 			<p class="admin-signup">Admin Signup</p>
 		</div>
 		<div class="admin-signup-form">
-			<input type="email" name="Your email" placeholder="Your email" id="signup-email"><br>
-			<input type="password" name="password" placeholder="Password" id="signup-password"><br>
+			<input type="email" name="Your email" placeholder="Your email" id="signup-email">
+			<input type="password" name="password" placeholder="Password" id="signup-password">
 			<button class="admmin-signup-btn">Signup</button>
 		</div>
 	</section>
@@ -77,6 +83,7 @@
 		</div>
 
 	</section>
-<script src="js/script.js"></script>	
+<script src="js/script.js"></script>
+<script src="js/quiz.js"></script>	
 </body>
 </html>
