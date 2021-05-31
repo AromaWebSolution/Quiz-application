@@ -112,9 +112,39 @@ var domItems = {
     formsWrapper: document.querySelector('.forms-wrapper'),
     updateButton: document.getElementById('question-update-btn'),
     deleteButton: document.getElementById('question-delete-btn'),
+    adminLogin: document.querySelector('.admin-login'),
+    adminSignUp: document.querySelector('.admin-signup'),
+    quizLoginForm: document.querySelector('.quiz-login-form'),
+    adminLoginForm: document.querySelector('.admin-login-form'),
+    adminSignUpForm: document.querySelector('.admin-signup-form'),
+    adminSignUpButton: document.querySelector('.admmin-signup-btn'),
+    loginEmail: document.getElementById('login-email'),
+    loginPassword: document.getElementById('login-password'),
+    adminLoginButton: document.getElementById('admin-login-btn'),
+    signupEmail: document.getElementById('signup-email'),
+    signupPassword: document.getElementById('signup-password'),
+    signupLoginButton: document.getElementById('signup-login-btn'),
+    adminPanelConatiner: document.querySelector('.admin-panel-container'),
+    loginForm: document.getElementById('login-form'),
+    logoutButton: document.getElementById('logout-btn'),
+    inputErrorEmail: document.querySelector('.input-error-email'),
+    inputErrorPassword: document.querySelector('.input-error-password'),
+    inputInvalid: document.querySelector('.input-invalid'),
+    insertQuestionError: document.querySelector('.insert-question-errors')
 	};
 	return {
 	getDomItems: domItems,
+  showErrorDynamically: function(message) {
+      domItems.insertQuestionError.innerHTML = message;
+      domItems.insertQuestionError.style.display = 'block';
+      this.removeInputError(domItems.questInsertBtn, domItems.insertQuestionError);
+  },
+  removeInputUI: function() {
+      var adminOptsWrapper = document.querySelectorAll('.admin-options-wrapper');
+          adminOptsWrapper.forEach(function(item, index) {
+          item.parentNode.removeChild(item);
+      });
+  },
 	addInputDynamically: function() {
       	let addInput = function() {
         var inputHTML, z;
@@ -292,6 +322,85 @@ var domItems = {
       domItems.updateButton.style.display = 'none';
       domItems.questInsertBtn.style.display = 'block';
     },
+    removeInputError: function(focusElement, errorMessage) {
+      focusElement.addEventListener('keydown', function() {
+        errorMessage.style.display = "none";
+      });
+    },
+    signUpFunction: function() {
+
+    var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
+  
+    if(domItems.signupEmail.value === '') {
+        alert('plaese enter your email');
+    }
+    if(domItems.signupPassword.value === '') {
+        alert('plaese enter your password');
+    }
+  else {
+    var authData = {
+      email: domItems.signupEmail.value,
+      password: domItems.signupPassword.value,
+      returnSecureToken: true
+    };
+    console.log(authData);
+    axios.post(baseUrl, authData)
+    .then(response => {
+      console.log(response);
+      // Cookies.set('jwtToken', response.data.idToken, );
+      domItems.adminSignUpForm.style.display = 'none';
+      domItems.adminLoginForm.style.display = 'block';
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  domItems.signupEmail.value = '';
+  domItems.signupPassword.value = '';
+    },
+  loginFunction: function() {
+      var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
+
+   if(domItems.loginEmail.value === '') {
+      domItems.inputErrorEmail.style.display = "block";
+      domItems.inputInvalid.style.display = "none"; 
+      this.removeInputError(domItems.loginEmail, domItems.inputErrorEmail); 
+    }
+    if(domItems.loginPassword.value === '') {
+      domItems.inputErrorPassword.style.display = "block";
+      domItems.inputInvalid.style.display = "none";
+      this.removeInputError(domItems.loginPassword, domItems.inputErrorPassword); 
+    }
+  else {
+    var authData = {
+      email: domItems.loginEmail.value,
+      password: domItems.loginPassword.value,
+      returnSecureToken: true
+    };
+    console.log(authData);
+    axios.post(baseUrl, authData)
+    .then(response => {
+      console.log(response);
+      var expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+      localStorage.setItem('token', response.data.idToken);
+      localStorage.setItem('expirationDate', expirationDate);
+      domItems.loginForm.style.display = 'none';
+      domItems.adminPanelConatiner.style.display = 'block';
+      domItems.loginEmail.value = '';
+      domItems.loginPassword.value = '';
+    })
+    .catch(error => {
+      domItems.inputInvalid.style.display = 'block';
+      console.log(error);
+    });
+  }
+  },
+  logoutFunction: function() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    domItems.adminPanelConatiner.style.display = 'none';
+    domItems.loginForm.style.display = 'block';
+  }
     
 };
 })();
