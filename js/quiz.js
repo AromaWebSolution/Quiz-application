@@ -118,7 +118,12 @@ var UIController = (function() {
     quizQuest: document.querySelector('.quiz-question'),
     quizOpts: document.querySelectorAll('.quiz-question-option'),
     nextButton: document.getElementById('question-next-btn'),
-    summary: document.querySelector('.summary')
+    summary: document.querySelector('.summary'),
+    gotoHome: document.querySelector('.gotoHome'),
+    viewScore: document.getElementById('viewScore'),
+    scoreDetails: document.querySelector('.scoreDetails'),
+    indicator: document.querySelector('.indicator'),
+    fillIndicator: document.querySelector('.fill-indicator')
 	};
     
 	return {
