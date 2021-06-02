@@ -400,6 +400,27 @@ var domItems = {
     localStorage.removeItem('expirationDate');
     domItems.adminPanelConatiner.style.display = 'none';
     domItems.loginForm.style.display = 'block';
+  },
+  checkAuthTimeout: function(expirationTime) {
+    // var that = this;
+    setTimeout(() => {
+      this.logoutFunction();
+    }, expirationTime * 1000);
+  },
+  checkAuthState: function() {
+    var idToken = localStorage.getItem('token');
+    var expirationDate = new Date(localStorage.getItem('expirationDate'));
+    if(!idToken) {
+      this.logoutFunction();
+    }
+    else if(expirationDate <= new Date()) {
+      this.logoutFunction();  
+    }
+    else {
+      domItems.adminPanelConatiner.style.display = 'block';
+      domItems.loginForm.style.display = 'none';
+      this.checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000);
+    }
   }
     
 };
@@ -417,6 +438,9 @@ var moduleController = (function(quizctrl, uictrl) {
     selectedDomItems.questInsertBtn.addEventListener('click', function() {
         var adminOpts = document.querySelectorAll('.admin-option');
         quizctrl.addQuestionOnLocalStorage(selectedDomItems.newQuestText, adminOpts);
+        uictrl.removeInputUI();
+        uictrl.addInput();
+        uictrl.addInput();
         uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
     });
 selectedDomItems.questionClearBtn.addEventListener('click', function() {
@@ -446,5 +470,34 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
         uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
       }
     }
-});	
+});
+
+selectedDomItems.adminLogin.addEventListener('click', function() {
+  selectedDomItems.quizLoginForm.style.display = 'none';
+  selectedDomItems.adminLoginForm.style.display = 'block';
+});
+
+selectedDomItems.adminSignUp.addEventListener('click', function() {
+  selectedDomItems.adminLoginForm.style.display = 'none';
+  selectedDomItems.adminSignUpForm.style.display = 'block';
+});
+
+selectedDomItems.adminSignUpButton.addEventListener('click', function(event) {
+   // event.preventDefault();
+   uictrl.signUpFunction();
+
+});
+
+selectedDomItems.adminLoginButton.addEventListener('click', function(event) {
+   // event.preventDefault();
+  uictrl.loginFunction();
+});
+
+selectedDomItems.logoutButton.addEventListener('click', function() {
+    uictrl.logoutFunction();
+});
+
+window.onload = function() {
+  uictrl.checkAuthState();
+}	
 })(quizController, UIController);
