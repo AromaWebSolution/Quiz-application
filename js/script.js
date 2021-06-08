@@ -11,26 +11,26 @@ var quizController = (function () {
   	this.correctAnswer = correctAnswer;
   }
 	
-  var questionLocalStorage = {
-    setQuestionCollection: function(newCollection) {
-      localStorage.setItem('QuestionId', JSON.stringify(newCollection));
-    },
-    getQuestionCollection: function() { 
-     return JSON.parse(localStorage.getItem('QuestionId'));
-    },
-    removeQuestionCollection: function() {
-      localStorage.removeItem('QuestionId');
-    },
-    clearLocaleStorage: function() {
-      localStorage.clear('QuestionId');
-    }
-  };
-  if (questionLocalStorage.getQuestionCollection() === null) {
-        questionLocalStorage.setQuestionCollection([]);
-  }
+  // var questionLocalStorage = {
+  //   setQuestionCollection: function(newCollection) {
+  //     localStorage.setItem('QuestionId', JSON.stringify(newCollection));
+  //   },
+  //   getQuestionCollection: function() { 
+  //    return JSON.parse(localStorage.getItem('QuestionId'));
+  //   },
+  //   removeQuestionCollection: function() {
+  //     localStorage.removeItem('QuestionId');
+  //   },
+  //   clearLocaleStorage: function() {
+  //     localStorage.clear('QuestionId');
+  //   }
+  // };
+  // if (questionLocalStorage.getQuestionCollection() === null) {
+  //       questionLocalStorage.setQuestionCollection([]);
+  // }
  
 return {
-  getQuestionLocalStorage: questionLocalStorage,
+  // getQuestionLocalStorage: questionLocalStorage,
   addQuestionOnLocalStorage: function(newQuestText, opts) {
      var optionsArr, corrAns, questionId, newQuestion, storedQuest, isChecked;
       optionsArr = [];
@@ -46,20 +46,23 @@ return {
         }
       }
 
-      if (questionLocalStorage.getQuestionCollection().length > 0) {
-       questionId = questionLocalStorage.getQuestionCollection()[questionLocalStorage.getQuestionCollection().length -1].id + 1;
-      }
-      else{
-        questionId = 0;
-      }
+      // if (questionLocalStorage.getQuestionCollection().length > 0) {
+      //  questionId = questionLocalStorage.getQuestionCollection()[questionLocalStorage.getQuestionCollection().length -1].id + 1;
+      // }
+      // else{
+      //   questionId = 0;
+      // }
       if (newQuestText.value !== '') {
         if (optionsArr.length > 1) {
           if (isChecked) {
       newQuestion = new Question(questionId, newQuestText.value, optionsArr, corrAns);
       
-      storedQuest = questionLocalStorage.getQuestionCollection();
-      storedQuest.push(newQuestion);
-      questionLocalStorage.setQuestionCollection(storedQuest);
+      // storedQuest = questionLocalStorage.getQuestionCollection();
+      // storedQuest.push(newQuestion);
+      // questionLocalStorage.setQuestionCollection(storedQuest);
+      axios.post('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json', newQuestion)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
 
       newQuestText.value = '';
 
@@ -158,29 +161,44 @@ var domItems = {
       }
       domItems.adminOptionsContainer.lastElementChild.lastElementChild.addEventListener('focus', addInput);      
     },
-    createQuestionList: function(getQuestions) {
+    createQuestionList: function() {
       var questHTML, questionNumber;
 
       domItems.insertedQuestionWrapper.innerHTML = '';
       questionNumber = 0;
+      axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
+        .then(response => {
+          const users = [];
+          const data = response.data;
+          for(let key in data) {
+            const user = data[key];
+            user.id = key;
+            users.push(user);
+          }
+          console.log(users);
+          for(var i = 0; i < users.length; i++) {
+        questHTML = '<p id="' + users[i].id + '"><span class="inserted-ques-text">' + ++questionNumber + '- ' + users[i].questionText + '</span><button class="edit-btn edit-btn-' + users.indexOf(users[i]) + '">Edit</button></p>';
+        domItems.insertedQuestionWrapper.insertAdjacentHTML('beforeend', questHTML);
+          } 
+        })
+        // questionNumber++;
+        .catch(error => console.log(error));
       
-      for (var i = 0; i < getQuestions.getQuestionCollection().length; i++) {
-        questHTML = '<p id="' + getQuestions.getQuestionCollection()[i].id + '"><span class="inserted-ques-text">' + ++questionNumber + '- ' + getQuestions.getQuestionCollection()[i].questionText + '</span><button class="edit-btn edit-btn-' + getQuestions.getQuestionCollection()[i].id + '">Edit</button></p>';
-        domItems.insertedQuestionWrapper.insertAdjacentHTML('beforeend', questHTML); 
-      }  
+      // for (var i = 0; i < getQuestions.getQuestionCollection().length; i++) {
+      // }
+      
     },
+    addInput: function() {
+          var inputHTML, z;
+          z = document.querySelectorAll('.admin-option').length;
+          inputHTML = '<div class="admin-options-wrapper"><input type="radio" name="answer" class="admin-options-' + z + '" value="' + z + '"><input type="text" class="admin-option admin-options-' + z + '" value=""></div>';
+          domItems.adminOptionsContainer.insertAdjacentHTML('beforeend', inputHTML);
+      },
     editQuestionList: function(event, getEditQuestion) {
       var itemID, optionsList, z;
       itemID = parseInt(event.target.parentNode.id);
       let adminOptsWrapper = document.querySelectorAll('.admin-options-wrapper');
       let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
-
-      let addInput = function() {
-          var inputHTML, z;
-          z = document.querySelectorAll('.admin-option').length;
-          inputHTML = '<div class="admin-options-wrapper"><input type="radio" name="answer" class="admin-options-' + z + '" value="' + z + '"><input type="text" class="admin-option admin-options-' + z + '" value=""></div>';
-          domItems.adminOptionsContainer.insertAdjacentHTML('beforeend', inputHTML);
-      }
 
       for(var i = 0; i < getEditQuestion.getQuestionCollection().length; i++) {
         if(itemID === getEditQuestion.getQuestionCollection()[i].id) {
@@ -196,9 +214,9 @@ var domItems = {
                 adminOptsWrapper.forEach(function(item, index) {
                     item.parentNode.removeChild(item);
                 });
-                addInput();
-                addInput();
-                addInput();
+                this.addInput();
+                this.addInput();
+                this.addInput();
               
               let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
               optionsList.forEach((option, index) => {
@@ -214,10 +232,10 @@ var domItems = {
                     item.parentNode.removeChild(item);
                 });
 
-                addInput();
-                addInput();
-                addInput();
-                addInput();
+                this.addInput();
+                this.addInput();
+                this.addInput();
+                this.addInput();
               let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
               optionsList.forEach((option, index) => {
               adminOpts[index].value = option;
@@ -232,8 +250,8 @@ var domItems = {
                 adminOptsWrapper.forEach(function(item, index) {
                     item.parentNode.removeChild(item);
                 });
-                addInput();
-                addInput();
+                this.addInput();
+                this.addInput();
               
                 let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
                 optionsList.forEach((option, index) => {
@@ -432,7 +450,7 @@ var domItems = {
 var moduleController = (function(quizctrl, uictrl) {
 	
     var selectedDomItems = uictrl.getDomItems;
-    uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
+    uictrl.createQuestionList();
     uictrl.addInputDynamically();
 
     selectedDomItems.questInsertBtn.addEventListener('click', function() {
@@ -441,7 +459,7 @@ var moduleController = (function(quizctrl, uictrl) {
         uictrl.removeInputUI();
         uictrl.addInput();
         uictrl.addInput();
-        uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
+        uictrl.createQuestionList();
     });
 selectedDomItems.questionClearBtn.addEventListener('click', function() {
     let clearQuestion = confirm('Are you Sure you want to remove the question list?');
@@ -449,7 +467,7 @@ selectedDomItems.questionClearBtn.addEventListener('click', function() {
     quizctrl.getQuestionLocalStorage.clearLocaleStorage(); 
     quizctrl.getQuestionLocalStorage.getQuestionCollection();
     //selectedDomItems.insertedQuestionWrapper.innerHTML = '';
-    uictrl.createQuestionList(quizctrl.getQuestionLocalStorage); 
+    uictrl.createQuestionList(); 
     }
 });
 selectedDomItems.insertedQuestionWrapper.addEventListener('click', function(event) {
@@ -467,7 +485,7 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
       if(formsWrapperId) {
         quizctrl.deleteQuestionOnLocalStorage(parseInt(formsWrapperId));
         uictrl.deleteQuestionUI();
-        uictrl.createQuestionList(quizctrl.getQuestionLocalStorage);
+        uictrl.createQuestionList();
       }
     }
 });
