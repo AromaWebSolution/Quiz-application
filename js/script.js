@@ -194,26 +194,34 @@ var domItems = {
           inputHTML = '<div class="admin-options-wrapper"><input type="radio" name="answer" class="admin-options-' + z + '" value="' + z + '"><input type="text" class="admin-option admin-options-' + z + '" value=""></div>';
           domItems.adminOptionsContainer.insertAdjacentHTML('beforeend', inputHTML);
       },
-    editQuestionList: function(event, getEditQuestion) {
+       editQuestionList: function(event, getEditQuestion) {
       var itemID, optionsList, z;
-      itemID = parseInt(event.target.parentNode.id);
+      itemID = event.target.parentNode.id;
       let adminOptsWrapper = document.querySelectorAll('.admin-options-wrapper');
       let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
 
-      for(var i = 0; i < getEditQuestion.getQuestionCollection().length; i++) {
-        if(itemID === getEditQuestion.getQuestionCollection()[i].id) {
-            domItems.newQuestText.value = getEditQuestion.getQuestionCollection()[i].questionText;
-            domItems.formsWrapper.id = getEditQuestion.getQuestionCollection()[i].id;
+      axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
+      .then(response => {
+        let users = [];
+        const data = response.data; 
+          for(let key in data) {
+            const user = data[key];
+            user.id = key;
+            users.push(user);
+          }
+                for(var i = 0; i < users.length; i++) {
+        if(itemID === users[i].id) {
+            domItems.newQuestText.value = users[i].questionText;
+            domItems.formsWrapper.id = users[i].id;
             domItems.questInsertBtn.style.display = 'none';
           
-            optionsList = getEditQuestion.getQuestionCollection()[i].options;
-              let answer = getEditQuestion.getQuestionCollection()[i].correctAnswer;
+            optionsList = users[i].options;
+              let answer = users[i].correctAnswer;
             
 
             if(optionsList.length === 3) {
-                adminOptsWrapper.forEach(function(item, index) {
-                    item.parentNode.removeChild(item);
-                });
+                this.removeInputUI();
+
                 this.addInput();
                 this.addInput();
                 this.addInput();
@@ -225,17 +233,16 @@ var domItems = {
                   adminOpts[index].previousElementSibling.checked = true;
                 }
               });
+              this.addInputDynamically();
             }
             else if(optionsList.length === 4) {
 
-                adminOptsWrapper.forEach(function(item, index) {
-                    item.parentNode.removeChild(item);
-                });
-
+                this.removeInputUI();
                 this.addInput();
                 this.addInput();
                 this.addInput();
                 this.addInput();
+              
               let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
               optionsList.forEach((option, index) => {
               adminOpts[index].value = option;
@@ -243,13 +250,11 @@ var domItems = {
                   adminOpts[index].previousElementSibling.checked = true;
                 }
               });
-
+              this.addInputDynamically();
             }
             else if(optionsList.length === 2) {
 
-                adminOptsWrapper.forEach(function(item, index) {
-                    item.parentNode.removeChild(item);
-                });
+                this.removeInputUI();
                 this.addInput();
                 this.addInput();
               
@@ -260,9 +265,13 @@ var domItems = {
                   adminOpts[index].previousElementSibling.checked = true;
                 }
                 });    
+              this.addInputDynamically();
             }
         }
     }
+        })
+        .catch(error => console.log(error)); 
+
     domItems.deleteButton.style.display = 'inline-block';
     domItems.updateButton.style.display = 'inline-block';
 },
