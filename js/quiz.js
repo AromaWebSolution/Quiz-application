@@ -55,10 +55,10 @@ var quizControllerQuiz = (function () {
           document.querySelector('#login-btn').href = "quiz.html";
       }
     },
-        getNextQuestion: function(questId) {
+    getNextQuestion: function(questId) {
+
       var questNo, correctAnswer, wrongAnswer, totalQuestions, questionArray, isChecked, answer;
-      questionArray = Array.from(questionLocalStorage.getQuestionCollectionQuiz());
-      totalQuestions = questionArray.length;
+
       answer = questionLocalStorage.getUserOnLocalStorage();
       //questNo = 0;
       if(questionLocalStorage.getQuestionCollectionQuiz() !== '') {
@@ -73,11 +73,19 @@ var quizControllerQuiz = (function () {
     
       var opt = Array.from(document.querySelectorAll('input'));
 
-      const currentQuestion = questionArray.find((ques, index) => questId === index);    
-      // debugger;
-    
+      axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
+        .then(response =>  { 
+          const users  = [];
+          const data = response.data;
+          for(let key in data) {
+            const user = data[key];
+            user.id = key;
+            users.push(user);
+          }
+          const currentQuestion = users.find((ques, index) => questId === ques.id);
+          const currentQuestionIndex =  users.findIndex((ques, index) => questId === ques.id);
 
-      for(var i = 0; i < opt.length; i++) {
+          for(var i = 0; i < opt.length; i++) {
             if(opt[i].checked) {
               if(currentQuestion.options[i] === currentQuestion.correctAnswer) {
                 answerCorrectAnswer = answerCorrectAnswer + 1;
@@ -91,14 +99,15 @@ var quizControllerQuiz = (function () {
             }
         }
       if(isChecked) {
-        UIController.quizQuestionUI(questionLocalStorage.getQuestionCollectionQuiz(), questId + 1);
+        UIController.quizQuestionUI(currentQuestionIndex + 1);
       }
       else {
         alert('Please select an answer!');
       }
       var updateUserAnswers = new User(answerFirstName, answerLastName, answerCorrectAnswer, answerWrongAnswer);
       questionLocalStorage.setUserOnLocalStorage(updateUserAnswers);
-
+        })
+        .catch(error => console.log(error));
     }
    };
 })();
@@ -128,20 +137,36 @@ var UIController = (function() {
     
 	return {
 		getDomItems: domItems,
-        quizQuestionUI: function(questions, questNo = 0) {
+    quizQuestionUI: function(questNo = 0) {
+      function escapeHtml(text) {
+      var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
       this.clearQuestionOnUI(domItems.quizQuest, domItems.quizOptContainer);
-      var totalQuestions, questionArray, inputHTML, quizInputHTML, quizOpt;
-      questionArray = questions;
-
-          questionArray.forEach((quest, index) => {
+      var totalQuestions, inputHTML, quizInputHTML, quizOpt;
+         axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
+        .then(response =>  { 
+          const users  = [];
+          const data = response.data;
+          for(let key in data) {
+            const user = data[key];
+            user.id = key;
+            users.push(user);
+          }
+        users.forEach((quest, index) => {
         if(index === questNo) {
-          inputHTML = '<span class="quiz-question-number">Q. ' + (questNo + 1) +' </span><span class="quiz-question-text">'+ quest.questionText +'</span>';
+          inputHTML = '<span class="quiz-question-number">Q. ' + (questNo + 1) +' </span><span class="quiz-question-text">'+ escapeHtml(quest.questionText) +'</span>';
           quizOpt = quest.options;
           
           if(domItems.quizQuest) {
-            domItems.quizQuest.id = index; 
-          } 
-          
+            domItems.quizQuest.id = quest.id; 
+          }           
           if(domItems.quizWrapper) {
           domItems.quizQuest.insertAdjacentHTML('beforeend', inputHTML);
          } 
@@ -150,9 +175,7 @@ var UIController = (function() {
         else {
 
         }
-        //questNo++;
       });
-
       function addQuizOptDyn(opts) {
         if(opts) {
           for(var i = 0; i < opts.length; i++) {
@@ -169,7 +192,8 @@ var UIController = (function() {
             domItems.viewScore.style.display = "block";
 
             if(domItems.viewScore) {
-              var questionsLength = quizControllerQuiz.getQuestionFromQuizPage.getQuestionCollectionQuiz().length;
+              var questionsLength = users.length;
+              console.log(questionsLength);
                 domItems.viewScore.addEventListener('click', function() {
                   var scoreFromStorage = quizControllerQuiz.getQuestionFromQuizPage.getUserOnLocalStorage();
                 var scoreInputHtml = '<div class="scoreDetails"><p><span>Hello </span> <span>' + scoreFromStorage.firstName + '! ' + '</span></p><p><span></span> <span>' + scoreFromStorage.correctAnswer + '</span> of ' + questionsLength + ' correct</p></div>';
@@ -180,6 +204,16 @@ var UIController = (function() {
                   var blockWidth = 100 / questionsLength;
                   console.log('blockWidth ' + blockWidth);
                   var showBlockWidth = scoreFromStorage.correctAnswer * blockWidth;
+                  var resultInPercentage = (scoreFromStorage.correctAnswer / questionsLength) * 100;
+                  console.log(resultInPercentage + '%');
+                  var resultPhrase1 = '<div class="resul-pharase"><p>Great, you have cleard the test<img src="images/gold-medal.png" alt="certificate"></p></div>';
+                  var resultPhrase2 = '<div class="resul-pharase"><p>Sorry, try again<img src="images/sad.png" alt="sad"></p><a class="gotoHome" href="index.html">Try Again</a></div>';
+                  if(resultInPercentage >= 70) {
+                    domItems.indicator.insertAdjacentHTML('beforeend', resultPhrase1);
+                  }
+                  else {
+                    domItems.indicator.insertAdjacentHTML('beforeend', resultPhrase2);
+                  }
                   if(scoreFromStorage.correctAnswer !== 0) {
                       domItems.fillIndicator.style.width = showBlockWidth + '%';
                       domItems.fillIndicator.style.height = "100%";
@@ -189,13 +223,15 @@ var UIController = (function() {
                   }
 
                   domItems.viewScore.style.display = "none";
-                domItems.gotoHome.style.display = "inline-block";
+                // domItems.gotoHome.style.display = "block";
                });
              }
           }
       }
       }
       addQuizOptDyn(quizOpt);
+        })
+      .catch(error => console.log(error));
 
     },
     clearQuestionOnUI: function(question, optionContainer) {
@@ -227,9 +263,7 @@ if(selectedDomItems.loginButton) {
         }
    });
 
- var checkQuestionOnLocalStorage = quizctrl.getQuestionFromQuizPage.getQuestionCollectionQuiz();
-
-    uictrl.quizQuestionUI(checkQuestionOnLocalStorage); 
+    uictrl.quizQuestionUI(); 
 
 if(selectedDomItems.nextButton) {
   selectedDomItems.nextButton.addEventListener('click', function() {
