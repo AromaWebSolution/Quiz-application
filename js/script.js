@@ -4,8 +4,7 @@
 
 var quizController = (function () {
   // ******* QUESTION CONSTRUCTOR 
-  function Question(id, questionText, options, correctAnswer) {
-  	this.id = id;
+  function Question(questionText, options, correctAnswer) {
   	this.questionText = questionText;
   	this.options = options;
   	this.correctAnswer = correctAnswer;
@@ -54,15 +53,25 @@ return {
         alert('Please Enter the Question');
       }
   },
-    deleteQuestionOnLocalStorage: function(questionId) {
-      var questionCollection = questionLocalStorage.getQuestionCollection();
-      for(var i = 0; i < questionCollection.length; i++) {
-        if(questionId === questionCollection[i].id) {
-          var questionIndex = questionCollection.indexOf(questionCollection[i]);
-          questionCollection.splice(questionIndex, 1);
+    deleteQuestionOnDatabase: function(questionId) {
+      axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
+      .then(response =>  {
+      const users  = [];
+        const data = response.data;
+        for(let key in data) {
+          const user = data[key];
+          user.id = key;
+          users.push(user);
+        }
+    for(var i = 0; i < users.length; i++) {
+        if(questionId === users[i].id) {
+          axios.delete(`https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions/${questionId}.json`)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
         }
       }
-      questionLocalStorage.setQuestionCollection(questionCollection);
+      })
+      .catch(error => console.log(error));
     }
 };
 
@@ -173,7 +182,6 @@ var domItems = {
     editQuestionList: function(event, getEditQuestion) {
       var itemID, optionsList, z;
       itemID = event.target.parentNode.id;
-      let adminOptsWrapper = document.querySelectorAll('.admin-options-wrapper');
       let adminOpts = Array.from(document.querySelectorAll('.admin-option'));
 
       axios.get('https://quiz-application-ca0b3-default-rtdb.firebaseio.com/questions.json')
@@ -185,7 +193,7 @@ var domItems = {
             user.id = key;
             users.push(user);
           }
-                for(var i = 0; i < users.length; i++) {
+      for(var i = 0; i < users.length; i++) {
         if(itemID === users[i].id) {
             domItems.newQuestText.value = users[i].questionText;
             domItems.formsWrapper.id = users[i].id;
@@ -313,6 +321,9 @@ var domItems = {
         opts[x].previousElementSibling.checked = false;
         opts[x].value = ''; 
       }
+      this.removeInputUI();
+      this.addInput();
+      this.addInput();
       domItems.deleteButton.style.display = 'none';
       domItems.updateButton.style.display = 'none';
       domItems.questInsertBtn.style.display = 'block';
@@ -460,9 +471,9 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
     if (deleteQuestion == true) {
       var formsWrapperId = selectedDomItems.formsWrapper.id;
       if(formsWrapperId) {
-        quizctrl.deleteQuestionOnLocalStorage(parseInt(formsWrapperId));
+        quizctrl.deleteQuestionOnDatabase(formsWrapperId);
         uictrl.deleteQuestionUI();
-        uictrl.createQuestionList();
+        await uictrl.createQuestionList();
       }
     }
 });
