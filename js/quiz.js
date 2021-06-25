@@ -269,7 +269,7 @@ if(selectedDomItems.nextButton) {
   selectedDomItems.nextButton.addEventListener('click', function() {
       //console.log('Options ' + opt);
       //console.log('Question Id ' + parseInt(selectedDomItems.quizQuest.id));
-      quizctrl.getNextQuestion(parseInt(selectedDomItems.quizQuest.id));  
+      quizctrl.getNextQuestion(selectedDomItems.quizQuest.id);  
 });
 } 
 })(quizControllerQuiz, UIController);
