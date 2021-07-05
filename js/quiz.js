@@ -49,7 +49,6 @@ var quizControllerQuiz = (function () {
           var name = firstName + lastName;
           var userName = new User(firstName, lastName, 0, 0);
           questionLocalStorage.setUserOnLocalStorage(userName);
-          console.log(firstName, lastName);
           fstName.value = '';
           lstName.value = '';
           document.querySelector('#login-btn').href = "quiz.html";
@@ -90,11 +89,9 @@ var quizControllerQuiz = (function () {
               if(currentQuestion.options[i] === currentQuestion.correctAnswer) {
                 answerCorrectAnswer = answerCorrectAnswer + 1;
                 isChecked = true;
-                console.log('correctAnswer ' + answerCorrectAnswer);
               }else {
                 answerWrongAnswer = answerWrongAnswer + 1;
                 isChecked = true;
-                console.log('wrongAnswer ' + answerWrongAnswer);
               }
             }
         }
@@ -186,7 +183,6 @@ var UIController = (function() {
         }
       }
       else {
-        console.log('no question');
         if(domItems.nextButton) {
             domItems.nextButton.style.display = "none";
             domItems.viewScore.style.display = "block";

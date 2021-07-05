@@ -312,6 +312,10 @@ var domItems = {
       }
       }
       updateFunction(newQuestText, adminOpts);
+      this.removeInputUI();
+      this.addInput();
+      this.addInput();
+      this.addInputDynamically();
     },
     deleteQuestionUI: function() {
       var opts = document.querySelectorAll('.admin-option');
@@ -324,6 +328,7 @@ var domItems = {
       this.removeInputUI();
       this.addInput();
       this.addInput();
+      this.addInputDynamically();
       domItems.deleteButton.style.display = 'none';
       domItems.updateButton.style.display = 'none';
       domItems.questInsertBtn.style.display = 'block';
