@@ -478,7 +478,7 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
       if(formsWrapperId) {
         quizctrl.deleteQuestionOnDatabase(formsWrapperId);
         uictrl.deleteQuestionUI();
-        await uictrl.createQuestionList();
+        uictrl.createQuestionList();
       }
     }
 });
