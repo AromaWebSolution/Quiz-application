@@ -42,15 +42,23 @@ return {
         opts[x].previousElementSibling.checked = false; 
       }
 
-      }else{
-        alert('you missed to Check the correct Answer options');
-      }
-      }else{
-        alert('Please Insert atleast two Item');
-      }
       }
       else{
-        alert('Please Enter the Question');
+        var questionErrorText1 = document.querySelector('.question-error-text1');
+        questionErrorText1.style.display = "block";
+        UIController.removeInputError(opts.previousElementSibling, questionErrorText1);
+      }
+    }
+      else{
+        var questionErrorText2 = document.querySelector('.question-error-text2');
+        questionErrorText2.style.display = "block";
+        UIController.removeInputError(opts, questionErrorText2);
+      }
+    }
+      else{
+        var questionErrorText3 = document.querySelector('.question-error-text3');
+        questionErrorText3.style.display = "block";
+        UIController.removeInputError(newQuestText, questionErrorText3);
       }
   },
     deleteQuestionOnDatabase: function(questionId) {
@@ -112,8 +120,10 @@ var domItems = {
     loginForm: document.getElementById('login-form'),
     logoutButton: document.getElementById('logout-btn'),
     inputErrorEmail: document.querySelector('.input-error-email'),
+    inputErrorSignupEmail: document.querySelector('.input-error-signup-email'),
     inputErrorPassword: document.querySelector('.input-error-password'),
     inputInvalid: document.querySelector('.input-invalid'),
+    inputInvalidSignup: document.querySelector('.input-invalid-signup'),
     insertQuestionError: document.querySelector('.insert-question-errors')
 	};
 	return {
@@ -343,10 +353,14 @@ var domItems = {
     var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
   
     if(domItems.signupEmail.value === '') {
-        alert('plaese enter your email');
+      domItems.inputErrorSignupEmail.style.display = "block";
+      // domItems.inputInvalid.style.display = "none"; 
+      this.removeInputError(domItems.signupEmail, domItems.inputErrorSignupEmail); 
     }
     if(domItems.signupPassword.value === '') {
-        alert('plaese enter your password');
+      domItems.inputInvalidSignup.style.display = "block";
+      // domItems.inputInvalid.style.display = "none";
+      this.removeInputError(domItems.signupPassword, domItems.inputInvalidSignup);
     }
   else {
     var authData = {
@@ -365,9 +379,9 @@ var domItems = {
     .catch(error => {
       console.log(error);
     });
-  }
   domItems.signupEmail.value = '';
   domItems.signupPassword.value = '';
+  }
     },
   loginFunction: function() {
       var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
@@ -478,7 +492,7 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
       if(formsWrapperId) {
         quizctrl.deleteQuestionOnDatabase(formsWrapperId);
         uictrl.deleteQuestionUI();
-        await uictrl.createQuestionList();
+        uictrl.createQuestionList();
       }
     }
 });
