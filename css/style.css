@@ -30,7 +30,7 @@ body{
     border: none;
     border-bottom: 2px solid #fff;
     background: transparent;
-    color: #000;
+    color: #fff;
 }
 .login-section input[type="text"]:focus, .admin-login-form input[type="email"], [type='password']:focus, .admin-signup-form input[type="text"], [type='email'], [type='password']:focus{
     border: none;
@@ -229,6 +229,7 @@ button:hover {
     background-color: #000000c9;
     max-width: 600px;
     width: 100%;
+    min-height: 54vh;
     padding: 50px 30px;
     border-radius: 6px;
 }
@@ -259,9 +260,11 @@ button:hover {
 .summary button {
     display: none;
 }
-.summary a {
-    display: none;
+a {
     text-decoration: none;
+}
+.summary a button {
+    width: 132px;
 }
 .resul-pharase p {
     justify-content: center;
@@ -293,10 +296,20 @@ button:hover {
     border-radius: 20px;
     border: 2px solid #ff9800;
     height: 0%;
-    margin-bottom: 18px;
+    /*margin-bottom: -4px;*/
     background-color: #ff9800;
 }
-p.admin-login, .admin-signup {
+.resul-pharase p:first-child {
+    margin-bottom: -2px;
+}
+/*.failed-margin-top {
+    margin-top: 32px;
+}
+*//*.resul-pharase p:last-child a.gotoHome{
+    color: #fff;
+    margin-left: 5px;
+}
+*/p.admin-login, .admin-signup {
     cursor: pointer;
     color: #fff;
 }
