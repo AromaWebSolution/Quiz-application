@@ -190,7 +190,6 @@ var UIController = (function() {
 
             if(domItems.viewScore) {
               var questionsLength = users.length;
-              console.log(questionsLength);
                 domItems.viewScore.addEventListener('click', function() {
                   var scoreFromStorage = quizControllerQuiz.getQuestionFromQuizPage.getUserOnLocalStorage();
                 var scoreInputHtml = '<div class="scoreDetails"><p><span>Hello </span> <span>' + scoreFromStorage.firstName + '! ' + '</span></p><p><span></span> <span>' + scoreFromStorage.correctAnswer + '</span> of ' + questionsLength + ' correct</p></div>';
@@ -199,12 +198,10 @@ var UIController = (function() {
                   domItems.indicator.style.display = "block";
 
                   var blockWidth = 100 / questionsLength;
-                  console.log('blockWidth ' + blockWidth);
                   var showBlockWidth = scoreFromStorage.correctAnswer * blockWidth;
                   var resultInPercentage = (scoreFromStorage.correctAnswer / questionsLength) * 100;
-                  console.log(resultInPercentage + '%');
-                  var resultPhrase1 = '<div class="resul-pharase"><p>Great, you have cleard the test<img src="images/certificate.png" alt="certificate"></p></div>';
-                  var resultPhrase2 = '<div class="resul-pharase"><p>Sorry, try again<img src="images/sad.png" alt="sad"></p><a class="gotoHome" href="index.html">Try Again</a></div>';
+                  var resultPhrase1 = '<div class="resul-pharase"><p>Great, you have cleard the test<img src="images/certificate.png" alt="certificate"></p><p>You may close the winodw or go to <a class="gotoHome" href="index.html">homepage</a></p></div>';
+                  var resultPhrase2 = '<div class="resul-pharase"><p class="failed-margin-top">Sorry, try again<img src="images/sad.png" alt="sad"></p><p><a class="gotoHome" href="index.html">Try Again</a></p></div>';
                   if(resultInPercentage >= 70) {
                     domItems.indicator.insertAdjacentHTML('beforeend', resultPhrase1);
                   }
