@@ -158,7 +158,7 @@ var UIController = (function() {
           }
           const currentQuestion = users.find((ques, index) => questNo === index);
         // users.forEach((quest, index) => {
-        // if(index === questNo) {
+        if(currentQuestion) {
           inputHTML = '<span class="quiz-question-number">Q. ' + (questNo + 1) +' </span><span class="quiz-question-text">'+ escapeHtml(currentQuestion.questionText) +'</span>';
           quizOpt = currentQuestion.options;
           
@@ -169,10 +169,10 @@ var UIController = (function() {
           domItems.quizQuest.insertAdjacentHTML('beforeend', inputHTML);
          } 
          
-        // }
-        // else {
+        }
+        else {
 
-        // }
+        }
       // });
       function addQuizOptDyn(opts) {
         if(opts) {
@@ -203,7 +203,7 @@ var UIController = (function() {
                   var showBlockWidth = scoreFromStorage.correctAnswer * blockWidth;
                   var resultInPercentage = (scoreFromStorage.correctAnswer / questionsLength) * 100;
                   console.log(resultInPercentage + '%');
-                  var resultPhrase1 = '<div class="resul-pharase"><p>Great, you have cleard the test<img src="images/gold-medal.png" alt="certificate"></p></div>';
+                  var resultPhrase1 = '<div class="resul-pharase"><p>Great, you have cleard the test<img src="images/certificate.png" alt="certificate"></p></div>';
                   var resultPhrase2 = '<div class="resul-pharase"><p>Sorry, try again<img src="images/sad.png" alt="sad"></p><a class="gotoHome" href="index.html">Try Again</a></div>';
                   if(resultInPercentage >= 70) {
                     domItems.indicator.insertAdjacentHTML('beforeend', resultPhrase1);
