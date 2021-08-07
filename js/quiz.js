@@ -160,7 +160,7 @@ var UIController = (function() {
         // users.forEach((quest, index) => {
         // if(index === questNo) {
           inputHTML = '<span class="quiz-question-number">Q. ' + (questNo + 1) +' </span><span class="quiz-question-text">'+ escapeHtml(currentQuestion.questionText) +'</span>';
-          quizOpt = currentQuestion.options;
+          quizOpt = escapeHtml(currentQuestion.options);
           
           if(domItems.quizQuest) {
             domItems.quizQuest.id = currentQuestion.id; 
