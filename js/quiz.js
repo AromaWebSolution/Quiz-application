@@ -160,7 +160,7 @@ var UIController = (function() {
         // users.forEach((quest, index) => {
         // if(index === questNo) {
           inputHTML = '<span class="quiz-question-number">Q. ' + (questNo + 1) +' </span><span class="quiz-question-text">'+ escapeHtml(currentQuestion.questionText) +'</span>';
-          quizOpt = escapeHtml(currentQuestion.options);
+          quizOpt = currentQuestion.options;
           
           if(domItems.quizQuest) {
             domItems.quizQuest.id = currentQuestion.id; 
@@ -177,7 +177,7 @@ var UIController = (function() {
       function addQuizOptDyn(opts) {
         if(opts) {
           for(var i = 0; i < opts.length; i++) {
-          quizInputHTML = '<div class="quiz-options-wrapper"><input type="radio" name="answer" class="admin-options-' + i +'" value="' + i +'"><span class="quiz-question-option quiz-question-options-' + i +'">' + opts[i] +'</span></div>';
+          quizInputHTML = '<div class="quiz-options-wrapper"><input type="radio" name="answer" class="admin-options-' + i +'" value="' + i +'"><span class="quiz-question-option quiz-question-options-' + i +'">' + escapeHtml(opts[i]) +'</span></div>';
           if(domItems.quizOptContainer) {
             domItems.quizOptContainer.insertAdjacentHTML('beforeend', quizInputHTML); 
           }
