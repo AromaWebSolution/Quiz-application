@@ -263,6 +263,12 @@ button:hover {
     display: none;
     text-decoration: none;
 }
+.resul-pharase p {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
 #question-next-btn {
     display: block;
 }
