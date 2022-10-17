@@ -9,33 +9,34 @@ body{
 
 /******* LOGIN SECTION ********/
 .login-section {
-    background-image: url('../images/landing-page.jpeg');
-	background-size: cover;
+    background-color: #fff;
 	width: 100%;
 	height: 100vh;
 }
 .quiz-login-form, .admin-login-form, .admin-signup-form{
-    width: 400px;
+    max-width: 400px;
     height: auto;
-    background-color: rgb(0 0 0 / 76%);
-    padding: 20px 30px;
-    margin:auto;
-    text-align: center;
-    transform: translateY(251px);
+    background-color: rgb(255 255 255 / 76%);
+        padding: 0px 10px 15px;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 1px solid #c1bebe;
+        box-shadow: 2px 2px 11px 0px #e5e5e5;
 }
 .login-section input[type="text"], .admin-login-form input[type="email"], [type='password'], .admin-signup-form input[type="text"], [type='email'], [type='password']{
-    width: 248px;
+    width: 280px;
     height: 40px;
     margin: 6px auto;
     border: none;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #d6d6d6;
     background: transparent;
-    color: #fff;
 }
 .login-section input[type="text"]:focus, .admin-login-form input[type="email"], [type='password']:focus, .admin-signup-form input[type="text"], [type='email'], [type='password']:focus{
     border: none;
     border-bottom: 2px solid #d6d6d6;
-    color: #fff;
     font-size: 16px;
     outline: none;
 }
@@ -45,18 +46,17 @@ body{
     font-size: 14px;
 }
 #login-btn, .admin-login-btn, .admmin-signup-btn {
-    padding: 7px 34px;
-    background-color: transparent;
-    border-radius: 20px;
+    border-radius: 6px;
     font-size: 16px;
     outline: none;
-    border: 2px solid #ff9800;
     color: #fff;
     display: inline-block;
     text-decoration: none;
+    border: 1px solid #0095f6;
+    background-color: #0095f6;
 }
 .admin-login-btn, .admmin-signup-btn {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 9px 40px;
 }
 #login-btn a{
@@ -70,9 +70,9 @@ p.admin-login, .admin-signup {
 .admin-login-form {
     display: none;
 }
-.admin-signup-form {
+/* .admin-signup-form {
     display: none;
-}
+} */
 
 /******* QUESTION PANEL *******/
 
@@ -96,29 +96,29 @@ p.admin-login, .admin-signup {
     content: '';
 }
 .header>h2, .scoreDetails p{
-color: #fff;
+color: #444444;
 }
 .header button{
     float: right;
     margin-top: -39px;
     padding: 10px 30px;
-    background-color: transparent;
-    border: 2px solid #ff9800;
-    border-radius: 39px;
+    background-color: #0095f6;
+    border: 2px solid #0095f6;
+    border-radius: 6px;
     color: #fff;
 }
 #question-update-btn, #question-delete-btn, #question-insert-btn, #clear-result-btn, #question-clear-btn, #question-next-btn, .gotoHome, .viewScore{
 	padding: 10px 30px;
-    background-color: transparent;
-    border: 2px solid #ff9800;
-    border-radius: 39px;
+    background-color: #0095f6;
+    border: 1px solid #0095f6;
+    border-radius: 6px;
     color: #fff;
 }
 #question-update-btn:hover, #question-delete-btn:hover, #question-insert-btn:hover, #clear-result-btn:hover, #question-clear-btn:hover,.edit-btn:hover, #question-next-btn:hover, #login-btn:hover, a.gotoHome:hover
  {
-    background-color: #ff9800;
+    background-color: #1598edd9;
     cursor: pointer; 
-    color: #000;
+    color: #fff;
 }
 #question-delete-btn, #question-update-btn {
     display: none;
@@ -175,7 +175,7 @@ button{
 	outline: none;
 }
 button:hover {
-    background-color: #ff9800;
+    background-color: #0095f6;
     cursor: pointer;
     color: #000;
 }
@@ -215,8 +215,7 @@ button:hover {
 
 /***********  Quiz Question Text **********/
 .quiz-panel-wrapper {
-    background-image: url('../images/quiz-question-background.jpg');
-    background-size: cover;
+    background-color: #fff;
     position: relative;
     width: 100%;
     height: 100vh;
@@ -226,21 +225,22 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #000000c9;
+    background-color: rgb(255 255 255 / 76%);
     max-width: 600px;
     width: 100%;
-    min-height: 54vh;
-    padding: 50px 30px;
+    padding: 25px 10px;
     border-radius: 6px;
+    border: 1px solid #c1bebe;
+    box-shadow: 2px 2px 11px 0px #e5e5e5;
+    height: auto;
 }
 
 .quiz-panel-container .header h2 {
     margin-top: 0;
-    border-bottom: 2px solid #ff9800;
+    border-bottom: 2px solid #d6d6d6;
 }
 .quiz-wrapper {
-    margin-top: 40px;
-    color: #efefef;
+    color: #444444;
 }
 .quiz-question {
     margin-bottom: 20px;
@@ -252,7 +252,7 @@ button:hover {
     margin-bottom: 35px;
 }
 .quiz-options-wrapper {
-    margin: 20px 0px;
+    margin: 15px 0px;
 }
 /********  Quiz Question Text End *********/
 
@@ -270,7 +270,7 @@ a {
     justify-content: center;
     display: flex;
     align-items: center;
-    color: #fff;
+    color: #444444;
 }
 #question-next-btn {
     display: block;
@@ -279,8 +279,8 @@ a {
     text-align: center;
 }
 .scoreDetails p:nth-child(1) {
-    font-size: 26px;
-    color: #ff9800;
+font-size: 20px;
+    color: #000000;
 }
 .indicator {
     display: none;
@@ -294,10 +294,10 @@ a {
 .fill-indicator {
     width: 0%;
     border-radius: 20px;
-    border: 2px solid #ff9800;
+    border: 2px solid #0095f6;
     height: 0%;
     /*margin-bottom: -4px;*/
-    background-color: #ff9800;
+    background-color: #0095f6;
 }
 .resul-pharase p:first-child {
     margin-bottom: -2px;
@@ -316,6 +316,16 @@ a {
 .admin-login-form {
     display: none;
 }
-.admin-signup-form {
+/* .admin-signup-form {
     display: none;
+} */
+.login-with-insta{
+    text-align: center;
+     color: #727272;
+}
+
+@media (min-width: 300px) and (max-width: 767px) {
+    .login-with-insta {
+           font-size: 16px;
+        }
 }
