@@ -84,6 +84,21 @@ return {
 var UIController = (function() {
 	//****** Admin Panel Section ******
 
+    function User(fullName, correctAnswer, wrongAnswer) {
+    this.fullName = fullName;
+    this.correctAnswer = correctAnswer;
+    this.wrongAnswer = wrongAnswer;
+  }
+
+  var questionLocalStorage = {
+    setUserOnLocalStorage: function(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    },
+    getUserOnLocalStorage: function(key) {
+      return JSON.parse(localStorage.getItem(key));
+    }
+  };
+
 var domItems = {
     questInsertBtn: document.getElementById('question-insert-btn'),
     newQuestText: document.getElementById('new-question-text'),
@@ -114,7 +129,9 @@ var domItems = {
     inputErrorEmail: document.querySelector('.input-error-email'),
     inputErrorPassword: document.querySelector('.input-error-password'),
     inputInvalid: document.querySelector('.input-invalid'),
-    insertQuestionError: document.querySelector('.insert-question-errors')
+    insertQuestionError: document.querySelector('.insert-question-errors'),
+    fullName: document.querySelector('#full-name'),
+    userCredential: document.querySelector('.userCredential')
 	};
 	return {
 	getDomItems: domItems,
@@ -339,14 +356,27 @@ var domItems = {
       });
     },
     signUpFunction: function() {
-
+      let location = window.location.href;
+      let indexHtml = location.split('index.html');
+      console.log(indexHtml[0] + "quiz.html");
     var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
+    var userDataUrl = "https://fabindia-341313-default-rtdb.firebaseio.com/userData";
   
+    if(domItems.fullName.value === '') {
+      alert('Please enter name');
+      return;
+    }
     if(domItems.signupEmail.value === '') {
         alert('plaese enter your email');
+        return;
+    }
+    if(!domItems.signupEmail.value.includes('@') && !domItems.signupEmail.value.includes('.')) {
+        alert('Email is not correct');
+        return;
     }
     if(domItems.signupPassword.value === '') {
         alert('plaese enter your password');
+        return;
     }
   else {
     var authData = {
@@ -354,20 +384,37 @@ var domItems = {
       password: domItems.signupPassword.value,
       returnSecureToken: true
     };
-    console.log(authData);
+    let userCredential = {
+      email: domItems.signupEmail.value,
+      password: domItems.signupPassword.value,
+      name: domItems.fullName.value
+    }
+    axios.post(`${userDataUrl}.json`, userCredential)
+      .then(response => {
+            console.log(response);
+        })
+      .catch(error => {
+        console.log(error);
+    });
     axios.post(baseUrl, authData)
     .then(response => {
       console.log(response);
       // Cookies.set('jwtToken', response.data.idToken, );
-      domItems.adminSignUpForm.style.display = 'none';
-      domItems.adminLoginForm.style.display = 'block';
+      // domItems.adminSignUpForm.style.display = 'none';
+      // domItems.adminLoginForm.style.display = 'block';
+
+          var userName = new User(domItems.fullName.value, 0, 0);
+          questionLocalStorage.setUserOnLocalStorage("userName", userName);
+          questionLocalStorage.setUserOnLocalStorage("idToken", response.data.idToken);
+          console.log(response.data.idToken);
+          window.location.href = indexHtml[0] + "quiz.html";
     })
     .catch(error => {
       console.log(error);
     });
   }
-  domItems.signupEmail.value = '';
-  domItems.signupPassword.value = '';
+  // domItems.signupEmail.value = '';
+  // domItems.signupPassword.value = '';
     },
   loginFunction: function() {
       var baseUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
@@ -483,10 +530,10 @@ selectedDomItems.deleteButton.addEventListener('click', function() {
     }
 });
 
-selectedDomItems.adminLogin.addEventListener('click', function() {
-  selectedDomItems.quizLoginForm.style.display = 'none';
-  selectedDomItems.adminLoginForm.style.display = 'block';
-});
+// selectedDomItems.adminLogin.addEventListener('click', function() {
+//   selectedDomItems.quizLoginForm.style.display = 'none';
+//   selectedDomItems.adminLoginForm.style.display = 'block';
+// });
 
 selectedDomItems.adminSignUp.addEventListener('click', function() {
   selectedDomItems.adminLoginForm.style.display = 'none';
