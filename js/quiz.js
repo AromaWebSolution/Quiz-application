@@ -4,9 +4,8 @@
 
 var quizControllerQuiz = (function () {
     // ******* QUESTION CONSTRUCTOR 
-  function User(firstName, lastName, correctAnswer, wrongAnswer) {
-    this.firstName = firstName;
-    this.lastName = lastName;
+  function User(fullName, correctAnswer, wrongAnswer) {
+    this.fullName = fullName;
     this.correctAnswer = correctAnswer;
     this.wrongAnswer = wrongAnswer;
   }
@@ -18,8 +17,11 @@ var quizControllerQuiz = (function () {
     setUserOnLocalStorage: function(user) {
       localStorage.setItem('userName', JSON.stringify(user));
     },
-    getUserOnLocalStorage: function() {
-      return JSON.parse(localStorage.getItem('userName'));
+    getUserOnLocalStorage: function(key) {
+      return JSON.parse(localStorage.getItem(key));
+    },
+    removeUserOnLocalStorage: function(key) {
+      localStorage.removeItem(key);
     }
   };
     
@@ -58,15 +60,15 @@ var quizControllerQuiz = (function () {
 
       var questNo, correctAnswer, wrongAnswer, totalQuestions, questionArray, isChecked, answer;
 
-      answer = questionLocalStorage.getUserOnLocalStorage();
+      answer = questionLocalStorage.getUserOnLocalStorage("userName");
       //questNo = 0;
       if(questionLocalStorage.getQuestionCollectionQuiz() !== '') {
         user = questionLocalStorage.getQuestionCollectionQuiz();
 
       }
       
-      var answerFirstName = answer.firstName;
-      var answerLastName = answer.lastName;
+      var answerFirstName = answer.fullName;
+      // var answerLastName = answer.lastName;
       var answerCorrectAnswer = answer.correctAnswer;
       var answerWrongAnswer = answer.wrongAnswer;
     
@@ -101,7 +103,7 @@ var quizControllerQuiz = (function () {
       else {
         alert('Please select an answer!');
       }
-      var updateUserAnswers = new User(answerFirstName, answerLastName, answerCorrectAnswer, answerWrongAnswer);
+      var updateUserAnswers = new User(answerFirstName, answerCorrectAnswer, answerWrongAnswer);
       questionLocalStorage.setUserOnLocalStorage(updateUserAnswers);
         })
         .catch(error => console.log(error));
@@ -114,7 +116,7 @@ var quizControllerQuiz = (function () {
 /*****************************/
 
 var UIController = (function() {
-    
+        var deleteAccount = "https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyAB_l_UtaTj0BOnsNQKKu268OhKR8TPp5o";
    var domItems = {
     firstName: document.getElementById('first-name'),
     lastName: document.getElementById('last-name'),
@@ -191,8 +193,16 @@ var UIController = (function() {
             if(domItems.viewScore) {
               var questionsLength = users.length;
                 domItems.viewScore.addEventListener('click', function() {
-                  var scoreFromStorage = quizControllerQuiz.getQuestionFromQuizPage.getUserOnLocalStorage();
-                var scoreInputHtml = '<div class="scoreDetails"><p><span>Hello </span> <span>' + scoreFromStorage.firstName + '! ' + '</span></p><p><span></span> <span>' + scoreFromStorage.correctAnswer + '</span> of ' + questionsLength + ' correct</p></div>';
+                      axios.post(deleteAccount, {idToken: quizControllerQuiz.getQuestionFromQuizPage.getUserOnLocalStorage("idToken")})
+    .then(response => {
+      console.log(response);
+      quizControllerQuiz.getQuestionFromQuizPage.removeUserOnLocalStorage('idToken');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+                  var scoreFromStorage = quizControllerQuiz.getQuestionFromQuizPage.getUserOnLocalStorage("userName");
+                var scoreInputHtml = '<div class="scoreDetails"><p><span>Hello </span> <span>' + scoreFromStorage.fullName + '! ' + '</span></p><p><span></span> <span>' + scoreFromStorage.correctAnswer + '</span> of ' + questionsLength + ' correct</p></div>';
                   domItems.summary.insertAdjacentHTML('afterbegin', scoreInputHtml);
 
                   domItems.indicator.style.display = "block";
@@ -245,17 +255,17 @@ var UIController = (function() {
 var moduleController = (function(quizctrl, uictrl) {
    var selectedDomItems = uictrl.getDomItems;
 
-if(selectedDomItems.loginButton) {
-  selectedDomItems.loginButton.addEventListener('click', function(event) {
-    quizctrl.checkLogin(selectedDomItems.firstName, selectedDomItems.lastName);
-  });
-}
+// if(selectedDomItems.loginButton) {
+//   selectedDomItems.loginButton.addEventListener('click', function(event) {
+//     quizctrl.checkLogin(selectedDomItems.firstName, selectedDomItems.lastName);
+//   });
+// }
 
-  document.addEventListener('keydown', function(event) {
-      if (event.keyCode === 13 || event.which === 13) {
-           quizctrl.checkLogin(selectedDomItems.firstName, selectedDomItems.lastName);
-        }
-   });
+//   document.addEventListener('keydown', function(event) {
+//       if (event.keyCode === 13 || event.which === 13) {
+//            quizctrl.checkLogin(selectedDomItems.firstName, selectedDomItems.lastName);
+//         }
+//    });
 
     uictrl.quizQuestionUI(); 
 
