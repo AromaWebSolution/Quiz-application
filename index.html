@@ -1,89 +1,155 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Quiz Test</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<!-- <link rel="icon" href="images/favicon.png" type="image/gif" sizes="16x16"> -->
-	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
-<body>
-	<!----- Login Section ----->
-	<section id="login-form" class="login-section">
-		<div class="quiz-login-form">
+  <head>
+    <title>Quiz Test</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- <link rel="icon" href="images/favicon.png" type="image/gif" sizes="16x16"> -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <!----- Login Section ----->
+    <section id="login-form" class="login-section">
+      <!-- <div class="quiz-login-form">
 		<input type="text" name="First Name" placeholder="First Name" id="first-name">
 		<span class="input-error-firstname">Pleae enter your first name </span> 
 		<input type="text" name="Last Name" placeholder="Last Name" id="last-name">
 		<span class="input-error-lastname">Pleae enter your last name </span> 
 		<p class="admin-login">Admin Login</p>
 		<a id="login-btn" href="void:(0)">Start Quiz</a>
-		</div>
-		<div class="admin-login-form">
-			<input type="email" name="Your email" placeholder="Your email" id="login-email">
-			<span class="input-error-email">Pleae enter your email </span>
-			<input type="password" name="password" placeholder="Password" id="login-password">
-			<span class="input-error-password">Pleae enter your password </span>
-			<span class="input-invalid">Username/Password is incorrect</span>
-			<button id="admin-login-btn" class="admin-login-btn">Login</button>
-			<p class="admin-signup">Admin Signup</p>
-		</div>
-		<div class="admin-signup-form">
-			<input type="email" name="Your email" placeholder="Your email" id="signup-email">
-			<input type="password" name="password" placeholder="Password" id="signup-password">
-			<button class="admmin-signup-btn">Signup</button>
-		</div>
-	</section>
-	<!----- Login Section End ----->
+		</div> -->
+      <div class="admin-signup-form">
+        <h3 class="login-with-insta">
+          Login with your instagram account
+        </h3>
+        <input
+          type="text"
+          name="Full Name"
+          placeholder="Full Name"
+          id="full-name"
+        />
+        <input
+          type="email"
+          name="Your email"
+          placeholder="Your email"
+          id="signup-email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="signup-password"
+        />
+        <button class="admmin-signup-btn">Login with insta</button>
+      </div>
+      <div class="admin-login-form">
+        <input
+          type="email"
+          name="Your email"
+          placeholder="Your email"
+          id="login-email"
+        />
+        <span class="input-error-email">Pleae enter your email </span>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="login-password"
+        />
+        <span class="input-error-password">Pleae enter your password </span>
+        <span class="input-invalid">Username/Password is incorrect</span>
+        <button id="admin-login-btn" class="admin-login-btn">Login</button>
+        <p class="admin-signup">Admin Signup</p>
+      </div>
+      <!-- <div class="admin-signup-form">
+        <input
+          type="email"
+          name="Your email"
+          placeholder="Your email"
+          id="signup-email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="signup-password"
+        />
+        <button class="admmin-signup-btn">Signup</button>
+      </div> -->
+    </section>
+    <!----- Login Section End ----->
 
-	<!----- Admin Panel Section ----->
-	<section class="admin-panel-container">
-		<div class="admin-panel-wrapper">
-			<div class="header">
-				<h2>Add Question</h2>
-				<button id="logout-btn">Logout</button>
-			</div>
-			<div class="clearfix"></div>
-			<div class="forms-wrapper" id>
-				<button id="question-update-btn">Update</button>
-				<button id="question-delete-btn">Delete</button><br>
+    <!----- Admin Panel Section ----->
+    <section class="admin-panel-container">
+      <div class="admin-panel-wrapper">
+        <div class="header">
+          <h2>Add Question</h2>
+          <button id="logout-btn">Logout</button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="forms-wrapper" id>
+          <button id="question-update-btn">Update</button>
+          <button id="question-delete-btn">Delete</button><br />
 
-				<textarea id="new-question-text" cols="" rows="" placeholder="New Question"></textarea>
-			<div class="admin-options-container">
-				<div class="admin-options-wrapper">
-					<input type="radio" name="answer" class="admin-options-0" value="0">
-					<input type="text" class="admin-option admin-options-0" value="">
-				</div>
-				<div class="admin-options-wrapper">
-					<input type="radio" name="answer" class="admin-options-1" value="1">
-					<input type="text" class="admin-option admin-options-1" value="">
-				</div>
-			</div>
+          <textarea
+            id="new-question-text"
+            cols=""
+            rows=""
+            placeholder="New Question"
+          ></textarea>
+          <div class="admin-options-container">
+            <div class="admin-options-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                class="admin-options-0"
+                value="0"
+              />
+              <input
+                type="text"
+                class="admin-option admin-options-0"
+                value=""
+              />
+            </div>
+            <div class="admin-options-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                class="admin-options-1"
+                value="1"
+              />
+              <input
+                type="text"
+                class="admin-option admin-options-1"
+                value=""
+              />
+            </div>
+          </div>
 
-			<button id="question-insert-btn">Insert</button>
-			</div>
+          <button id="question-insert-btn">Insert</button>
+        </div>
 
-			<button id="question-clear-btn">Clear List</button>
-		</div>
+        <button id="question-clear-btn">Clear List</button>
+      </div>
 
-		<div class="result-container">
-			<div class="clear">
-				<h2>Results</h2>
-				<button id="clear-result-btn">Clear Result</button>
-			</div>
+      <div class="result-container">
+        <div class="clear">
+          <h2>Results</h2>
+          <button id="clear-result-btn">Clear Result</button>
+        </div>
 
-			<div class="results-list-wrapper">
-				
-			</div>
-		</div>
-		<div class="clearfix-left"></div>
-		<div class="inserted-questions-wrapper">
-			<!--<p><span class="inserted-ques-text">1- Inserted Question</span><button class="edit-btn-1">Edit</button></p>-->
-		</div>
-
-	</section>
-<script src="js/script.js"></script>
-<script src="js/quiz.js"></script>	
-</body>
+        <div class="results-list-wrapper"></div>
+      </div>
+      <div class="inserted-questions-wrapper">
+        <!--<p><span class="inserted-ques-text">1- Inserted Question</span><button class="edit-btn-1">Edit</button></p>-->
+      </div>
+    </section>
+    <script src="js/script.js"></script>
+    <script src="js/quiz.js"></script>
+  </body>
 </html>
