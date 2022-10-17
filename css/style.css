@@ -40,7 +40,7 @@ body{
     font-size: 16px;
     outline: none;
 }
-.input-error-email, .input-error-password, .input-invalid, .input-error-firstname, .input-error-lastname, .insert-question-errors {
+.input-error-email, .input-error-password, .input-invalid, .input-error-firstname, .input-error-lastname, .insert-question-errors, .input-error-name {
     display: none;
     color: #ef1919;
     font-size: 14px;
