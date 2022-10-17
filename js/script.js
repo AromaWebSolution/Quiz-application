@@ -128,6 +128,7 @@ var domItems = {
     logoutButton: document.getElementById('logout-btn'),
     inputErrorEmail: document.querySelector('.input-error-email'),
     inputErrorPassword: document.querySelector('.input-error-password'),
+    inputErrorName: document.querySelector('.input-error-name'),
     inputInvalid: document.querySelector('.input-invalid'),
     insertQuestionError: document.querySelector('.insert-question-errors'),
     fullName: document.querySelector('#full-name'),
@@ -363,19 +364,18 @@ var domItems = {
     var userDataUrl = "https://fabindia-341313-default-rtdb.firebaseio.com/userData";
   
     if(domItems.fullName.value === '') {
-      alert('Please enter name');
+      domItems.inputErrorName.style.display = "block";
+      this.removeInputError(domItems.fullName, domItems.inputErrorName); 
       return;
     }
-    if(domItems.signupEmail.value === '') {
-        alert('plaese enter your email');
-        return;
-    }
-    if(!domItems.signupEmail.value.includes('@') && !domItems.signupEmail.value.includes('.')) {
-        alert('Email is not correct');
+    if(domItems.signupEmail.value === '' || !domItems.signupEmail.value.includes('@') || !domItems.signupEmail.value.includes('.')) {
+         domItems.inputErrorEmail.style.display = "block";
+         this.removeInputError(domItems.signupEmail, domItems.inputErrorEmail); 
         return;
     }
     if(domItems.signupPassword.value === '') {
-        alert('plaese enter your password');
+        domItems.inputErrorPassword.style.display = "block";
+        this.removeInputError(domItems.signupPassword, domItems.inputErrorPassword); 
         return;
     }
   else {
