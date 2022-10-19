@@ -329,3 +329,11 @@ font-size: 20px;
            font-size: 16px;
         }
 }
+.quiz-heading{
+        position: absolute;
+            left: 50%;
+            top: 28%;
+            transform: translate(-50%, -28%);
+            text-align: center;
+            width: 100%;
+}
